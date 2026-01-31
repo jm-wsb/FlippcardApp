@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/setListFragment">
+
+    <fragment
+        android:id="@+id/setListFragment"
+        android:name="com.example.flippcardapp.ui.SetListFragment"
+        android:label="Pakiety fiszek"
+        tools:layout="@layout/fragment_set_list">
+        <action
+            android:id="@+id/action_setListFragment_to_flashcardListFragment"
+            app:destination="@id/flashcardListFragment" />
+        <action
+            android:id="@+id/action_setListFragment_to_addSetFragment"
+            app:destination="@id/addSetFragment" />
+        <action
+            android:id="@+id/action_setListFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/flashcardListFragment"
+        android:name="com.example.flippcardapp.ui.FlashcardListFragment"
+        android:label="Fiszki w pakiecie"
+        tools:layout="@layout/fragment_list">
+        <argument
+            android:name="setId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_flashcardListFragment_to_addFlashcardFragment"
+            app:destination="@id/addFlashcardFragment" />
+        <action
+            android:id="@+id/action_flashcardListFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.flippcardapp.ui.ListFragment"
+        android:label="Lista fiszek"
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_listFragment_to_addFlashcardFragment"
+            app:destination="@id/addFlashcardFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addSetFragment"
+        android:name="com.example.flippcardapp.ui.AddSetFragment"
+        android:label="Nowy pakiet"
+        tools:layout="@layout/fragment_add_set" />
+
+    <fragment
+        android:id="@+id/addFlashcardFragment"
+        android:name="com.example.flippcardapp.ui.AddFlashcardFragment"
+        android:label="Dodaj fiszkę"
+        tools:layout="@layout/fragment_add_flashcard">
+        <argument
+            android:name="setId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.flippcardapp.ui.QuizFragment"
+        android:label="Quiz"
+        tools:layout="@layout/fragment_quiz">
+        <argument
+            android:name="setId"
+            app:argType="integer" />
+    </fragment>
+</navigation>
