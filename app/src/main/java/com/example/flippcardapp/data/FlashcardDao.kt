@@ -9,6 +9,9 @@ interface FlashcardDao {
     @Query("SELECT * FROM flashcard_sets")
     fun getAllSets(): LiveData<List<FlashcardSet>>
 
+    @Query("SELECT * FROM flashcard_sets WHERE id = :id")
+    fun getSetById(id: Int): LiveData<FlashcardSet>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSet(set: FlashcardSet): Long
 

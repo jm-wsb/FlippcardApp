@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.flippcardapp.data.Flashcard
 import com.example.flippcardapp.databinding.FragmentAddFlashcardBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddFlashcardFragment : Fragment() {
+class AddFlashcardFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddFlashcardBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +39,11 @@ class AddFlashcardFragment : Fragment() {
                 val flashcard = Flashcard(setId = setId, word = word, translation = translation)
                 viewModel.insertFlashcard(flashcard)
                 Toast.makeText(context, "Fiszka zapisana!", Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
+                
+                // Powiadamiamy poprzedni fragment o potrzebie odświeżenia paska
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("refresh", true)
+
+                dismiss()
             } else {
                 Toast.makeText(context, "Proszę wypełnić wszystkie pola", Toast.LENGTH_SHORT).show()
             }

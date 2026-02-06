@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flippcardapp.data.FlashcardSet
 import com.example.flippcardapp.databinding.ItemSetBinding
+import com.example.flippcardapp.util.adjustForNightMode
 
 class SetAdapter(
     private val onClick: (FlashcardSet) -> Unit,
@@ -26,7 +27,8 @@ class SetAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(set: FlashcardSet) {
             binding.textViewSetName.text = set.name
-            binding.viewColorIndicator.setBackgroundColor(set.color)
+            binding.viewColor.setBackgroundColor(set.color.adjustForNightMode(binding.root.context))
+
             binding.root.setOnClickListener { onClick(set) }
             binding.root.setOnLongClickListener {
                 onLongClick(set)

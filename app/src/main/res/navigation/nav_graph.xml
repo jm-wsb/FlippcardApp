@@ -11,8 +11,8 @@
         android:label="Pakiety fiszek"
         tools:layout="@layout/fragment_set_list">
         <action
-            android:id="@+id/action_setListFragment_to_flashcardListFragment"
-            app:destination="@id/flashcardListFragment" />
+            android:id="@+id/action_setListFragment_to_listFragment"
+            app:destination="@id/listFragment" />
         <action
             android:id="@+id/action_setListFragment_to_addSetFragment"
             app:destination="@id/addSetFragment" />
@@ -22,26 +22,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/flashcardListFragment"
-        android:name="com.example.flippcardapp.ui.FlashcardListFragment"
-        android:label="Fiszki w pakiecie"
+        android:id="@+id/listFragment"
+        android:name="com.example.flippcardapp.ui.ListFragment"
         tools:layout="@layout/fragment_list">
         <argument
             android:name="setId"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_flashcardListFragment_to_addFlashcardFragment"
-            app:destination="@id/addFlashcardFragment" />
-        <action
-            android:id="@+id/action_flashcardListFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/listFragment"
-        android:name="com.example.flippcardapp.ui.ListFragment"
-        android:label="Lista fiszek"
-        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_addFlashcardFragment"
             app:destination="@id/addFlashcardFragment" />
@@ -50,13 +36,13 @@
             app:destination="@id/quizFragment" />
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/addSetFragment"
         android:name="com.example.flippcardapp.ui.AddSetFragment"
         android:label="Nowy pakiet"
         tools:layout="@layout/fragment_add_set" />
 
-    <fragment
+    <dialog
         android:id="@+id/addFlashcardFragment"
         android:name="com.example.flippcardapp.ui.AddFlashcardFragment"
         android:label="Dodaj fiszkę"
@@ -64,7 +50,7 @@
         <argument
             android:name="setId"
             app:argType="integer" />
-    </fragment>
+    </dialog>
 
     <fragment
         android:id="@+id/quizFragment"
@@ -75,4 +61,5 @@
             android:name="setId"
             app:argType="integer" />
     </fragment>
+
 </navigation>

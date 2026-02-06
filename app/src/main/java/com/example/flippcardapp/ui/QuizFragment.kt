@@ -3,20 +3,24 @@ package com.example.flippcardapp.ui
 import android.animation.AnimatorInflater
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.flippcardapp.R
 import com.example.flippcardapp.databinding.FragmentQuizBinding
+import com.example.flippcardapp.util.adjustForNightMode
 
 class QuizFragment : Fragment() {
 
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FlashcardViewModel by viewModels()
+    private val viewModel: FlashcardViewModel by activityViewModels()
     private var setId: Int = -1
 
     override fun onCreateView(
@@ -31,9 +35,25 @@ class QuizFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setId = arguments?.getInt("setId") ?: -1
+        viewModel.setCurrentSet(setId)
+
+        // Ustawienie dystansu kamery, aby uniknąć wychodzenia karty przed przycisk
+        val scale = resources.displayMetrics.density
+        binding.cardView.cameraDistance = 8000 * scale
 
         if (viewModel.currentQuizCard.value == null) {
             viewModel.loadNextQuizCard(setId)
+        }
+
+        viewModel.currentSet.observe(viewLifecycleOwner) { set ->
+            set?.let {
+                val adjustedColor = it.color.adjustForNightMode(requireContext())
+                binding.buttonNext.backgroundTintList = ColorStateList.valueOf(adjustedColor)
+
+                val luminance = ColorUtils.calculateLuminance(adjustedColor)
+                val textColor = if (luminance > 0.5) Color.BLACK else Color.WHITE
+                binding.buttonNext.setTextColor(textColor)
+            }
         }
 
         viewModel.currentQuizCard.observe(viewLifecycleOwner) { flashcard ->
@@ -68,7 +88,7 @@ class QuizFragment : Fragment() {
     private fun animateFlip() {
         val outAnim = AnimatorInflater.loadAnimator(context, R.animator.card_flip_out) as AnimatorSet
         val inAnim = AnimatorInflater.loadAnimator(context, R.animator.card_flip_in) as AnimatorSet
-        
+
         outAnim.setTarget(binding.cardView)
         inAnim.setTarget(binding.cardView)
 

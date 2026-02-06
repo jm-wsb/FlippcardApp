@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -54,15 +53,13 @@ class FlashcardListFragment : Fragment() {
 
         binding.fabAdd.setOnClickListener {
             val bundle = Bundle().apply { putInt("setId", setId) }
-            findNavController().navigate(R.id.action_flashcardListFragment_to_addFlashcardFragment, bundle)
+            findNavController().navigate(R.id.action_listFragment_to_addFlashcardFragment, bundle)
         }
 
         binding.fabQuiz.setOnClickListener {
             val bundle = Bundle().apply { putInt("setId", setId) }
-            findNavController().navigate(R.id.action_flashcardListFragment_to_quizFragment, bundle)
+            findNavController().navigate(R.id.action_listFragment_to_quizFragment, bundle)
         }
-
-        binding.buttonSync.visibility = View.GONE
     }
 
 

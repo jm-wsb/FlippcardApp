@@ -11,11 +11,14 @@ class FlashcardViewModel(application: Application) : AndroidViewModel(applicatio
     private val flashcardDao = AppDatabase.getDatabase(application).flashcardDao()
     
     val allSets: LiveData<List<FlashcardSet>> = flashcardDao.getAllSets()
-    val allFlashcards: LiveData<List<Flashcard>> = flashcardDao.getAllFlashcards()
 
     private val _currentSetId = MutableLiveData<Int>()
     val currentFlashcards: LiveData<List<Flashcard>> = _currentSetId.switchMap { id ->
         flashcardDao.getFlashcardsBySet(id)
+    }
+
+    val currentSet: LiveData<FlashcardSet> = _currentSetId.switchMap { id ->
+        flashcardDao.getSetById(id)
     }
 
     private val _currentQuizCard = MutableLiveData<Flashcard?>()
@@ -25,7 +28,10 @@ class FlashcardViewModel(application: Application) : AndroidViewModel(applicatio
     val isShowingTranslation: LiveData<Boolean> = _isShowingTranslation
 
     fun setCurrentSet(setId: Int) {
-        _currentSetId.value = setId
+        if (_currentSetId.value != setId) {
+            _currentSetId.value = setId
+            _currentQuizCard.value = null
+        }
     }
 
     fun insertSet(set: FlashcardSet) = viewModelScope.launch {
@@ -44,14 +50,8 @@ class FlashcardViewModel(application: Application) : AndroidViewModel(applicatio
         flashcardDao.deleteFlashcard(flashcard)
     }
 
-    fun delete(flashcard: Flashcard) = deleteFlashcard(flashcard)
-
-    fun loadNextQuizCard(setId: Int, shuffle: Boolean = true) = viewModelScope.launch {
-        if (shuffle) {
-            _currentQuizCard.value = flashcardDao.getRandomFlashcardFromSet(setId)
-        } else {
-            _currentQuizCard.value = flashcardDao.getRandomFlashcardFromSet(setId)
-        }
+    fun loadNextQuizCard(setId: Int) = viewModelScope.launch {
+        _currentQuizCard.value = flashcardDao.getRandomFlashcardFromSet(setId)
         _isShowingTranslation.value = false
     }
 

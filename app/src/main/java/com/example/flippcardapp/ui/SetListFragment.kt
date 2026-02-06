@@ -1,13 +1,12 @@
 package com.example.flippcardapp.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flippcardapp.R
@@ -17,7 +16,7 @@ class SetListFragment : Fragment() {
 
     private var _binding: FragmentSetListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FlashcardViewModel by viewModels()
+    private val viewModel: FlashcardViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +32,7 @@ class SetListFragment : Fragment() {
         val adapter = SetAdapter(
             onClick = { set ->
                 val bundle = Bundle().apply { putInt("setId", set.id) }
-                findNavController().navigate(R.id.action_setListFragment_to_flashcardListFragment, bundle)
+                findNavController().navigate(R.id.action_setListFragment_to_listFragment, bundle)
             },
             onLongClick = { set ->
                 AlertDialog.Builder(requireContext())
